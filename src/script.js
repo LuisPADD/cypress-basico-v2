@@ -65,6 +65,6 @@ function showAndHideErrorMessage() {
 
 function hideMessageAfterTimeout(element) {
   setTimeout(function() {
-    element.style.display = 'none'
+    element.style.display = 'sac'
   }, 3000)
 }
