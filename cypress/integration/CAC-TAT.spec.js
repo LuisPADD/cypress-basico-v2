@@ -190,5 +190,62 @@ it('acessa a página da política de privacidade removendo o target e então cli
  
 })
 
+it('Controle o "relógio" 🕐 do navegador com os comandos cy.clock() e cy.tick()',function(){
+    
+    cy.contains('button', 'Enviar').click()
+    .clock()
+    cy.get('.error').should('be.visible')
+    cy.tick(3000)
+    cy.get('.error').should('not.be.visible')
+ 
+})
+
+it('exibe e esconde as mensagens de sucesso e erro usando o .invoke', () => {
+    cy.get('.success')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', 'Mensagem enviada com sucesso.')
+      .invoke('hide')
+      .should('not.be.visible')
+    cy.get('.error')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', 'Valide os campos obrigatórios!')
+      .invoke('hide')
+      .should('not.be.visible')
+  })
+
+  it('preenche a area de texto usando o comando invoke', function() {
+   const longtxt = Cypress._.repeat('0123456789', 20)
+
+   cy.get('#open-text-area')
+   .invoke('val', longtxt)
+   .should('have.value', longtxt)
+
+
+  })
+
+  it('Requisição HTTP', function() {
+    cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+    .should(function(response){
+        const {status, statusText, body} = response
+        expect(status).to.equal(200)
+        expect(statusText).to.equal('OK')
+        expect(body).to.include('CAC TAT')
+    })
+ 
+   })
+
+   it.only('Gato', () => {
+    cy.get('#cat')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', '🐈')
+      .invoke('hide')
+      .should('not.be.visible')
+  })
 
 })
